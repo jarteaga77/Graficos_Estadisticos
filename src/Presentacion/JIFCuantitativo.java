@@ -5,16 +5,15 @@
  */
 package Presentacion;
 
-
-
-
 import Presentacion.MDIPrincipal;
 import estadistica.modelo.Clase;
 import estadistica.modelo.Frecuencia;
 import estadistica.recursos.JPColor;
 import java.awt.Color;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.Enumeration;
+import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -25,52 +24,46 @@ import javax.swing.table.TableColumn;
  */
 public class JIFCuantitativo extends javax.swing.JInternalFrame {
 
-  
-   	private static final long serialVersionUID = 1L;
-	private Frecuencia frec;
-   
-        MDIPrincipal frame;
-   private DefaultTableModel modeloLista;
-   
-   private int idus=MDIPrincipal.getvSeccion();
+    private static final long serialVersionUID = 1L;
+    private Frecuencia frec;
+
+    MDIPrincipal frame;
+    private DefaultTableModel modeloLista;
+
+    private int idus = MDIPrincipal.getvSeccion();
+    String valores="";
     public JIFCuantitativo() throws SQLException {
         initComponents();
-        
+
         frec = new Frecuencia();
-        
+
         txt_ingresar.setColumns(25);
         txt_ingresar.setText("63,43,64,59,50,82,51,72,60,64,36,70,52,67,76,49,57,51,57,44,56,62,62,67,73,64,43,60,61,56,59,68,71,67,62,35,62,61,51,63,78,26,55,81,60");
 
-        
-        
-            Color c1=new Color(66,111,166);
-            Color c2=new Color(102,174,118);
-            JPColor miColor=new JPColor(c1,c2);
-            miColor.setSize(this.getSize());
-            panel_enc.add(miColor);
-            
-            
-            tb_frecuencia.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "[ Rango", "fi", "Fi", "hi", "Hi", "hi%", "Hi%"
-            }
+        Color c1 = new Color(66, 111, 166);
+        Color c2 = new Color(102, 174, 118);
+        JPColor miColor = new JPColor(c1, c2);
+        miColor.setSize(this.getSize());
+        panel_enc.add(miColor);
+
+        tb_frecuencia.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{
+                    {null, null, null, null, null, null, null}
+                },
+                new String[]{
+                    "[ Rango", "fi", "Fi", "hi", "Hi", "hi%", "Hi%"
+                }
         ) {
-            boolean[] canEdit = new boolean [] {
+            boolean[] canEdit = new boolean[]{
                 false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
-       
-            
-        
-            
-       }
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -96,6 +89,12 @@ public class JIFCuantitativo extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_area = new javax.swing.JTextArea();
         btn_graficar = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        valorCalcular = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        porciento = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -112,7 +111,7 @@ public class JIFCuantitativo extends javax.swing.JInternalFrame {
         panel_encLayout.setHorizontalGroup(
             panel_encLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_encLayout.createSequentialGroup()
-                .addContainerGap(303, Short.MAX_VALUE)
+                .addContainerGap(327, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel34)
@@ -231,6 +230,61 @@ public class JIFCuantitativo extends javax.swing.JInternalFrame {
             .addComponent(btn_graficar)
         );
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Calcular por debajo del Rango"));
+
+        valorCalcular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                valorCalcularActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Valor");
+
+        jButton1.setText("Calcular");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Porcentaje");
+
+        porciento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                porcientoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addGap(35, 35, 35)
+                .addComponent(valorCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(porciento, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap(422, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(valorCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jButton1)
+                    .addComponent(jLabel4)
+                    .addComponent(porciento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -239,6 +293,7 @@ public class JIFCuantitativo extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panel_linea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -254,13 +309,15 @@ public class JIFCuantitativo extends javax.swing.JInternalFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panel_linea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_ingresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ingresarActionPerformed
+        valores=txt_ingresar.getText().trim();
         String[] str = txt_ingresar.getText().trim().split(",");
         float[] datos = new float[str.length];
         txt_area.append("Datos:  ");
@@ -298,7 +355,6 @@ public class JIFCuantitativo extends javax.swing.JInternalFrame {
         txt_area.append("\nDesviación Estandar (S) = " + frec.desviacion_estandar());
         txt_area.append("\nCoeficiente de Variación (CV) = " + frec.coeficiente());
 
-
         borrarFilas();
         for (int i = 0; i < n; i++) {
             // Primero colocamos las marcas de clase
@@ -306,50 +362,84 @@ public class JIFCuantitativo extends javax.swing.JInternalFrame {
             modelo.addRow(new String[]{str, abs[i] + "", absAc[i] + ""});
             modelo.setValueAt(redondear(rel[i], 4), i, 3);
             modelo.setValueAt(redondear(relAc[i], 4), i, 4);
-            modelo.setValueAt(redondear(rel[i], 4)*100, i, 5);
-            modelo.setValueAt(redondear(relAc[i], 4)*100, i, 6);
+            modelo.setValueAt(redondear(rel[i], 4) * 100, i, 5);
+            modelo.setValueAt(redondear(relAc[i], 4) * 100, i, 6);
         }
-        
-           setCellRender(tb_frecuencia);
+
+        setCellRender(tb_frecuencia);
         btn_graficar.setEnabled(true);
     }//GEN-LAST:event_btn_calcularActionPerformed
 
     private void btn_graficarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_graficarActionPerformed
-        dlgGraf graf=new dlgGraf(frec, frame, true);
+        dlgGraf graf = new dlgGraf(frec, frame, true);
         graf.setLocationRelativeTo(this);
         graf.setVisible(true);
     }//GEN-LAST:event_btn_graficarActionPerformed
+
+    private void valorCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valorCalcularActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_valorCalcularActionPerformed
+//luis.leon
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //Calculo porcentaje (cantidad divida el total multiplicado por 100)
+        if (valores.length() > 0 && valorCalcular.getText().length() > 0) {
+
+            String[] list = valores.trim().split(",");
+            int count = 0;
+            for (String valor : list) {
+                if (Float.parseFloat(valor) < Float.parseFloat(valorCalcular.getText())) {
+                    count++;
+                }
+            }
+             float div= (float)count/list.length;
+             DecimalFormat formateador = new DecimalFormat("####.##");
+            porciento.setText(formateador.format(div*100)+"%");
+
+        } else {
+            porciento.setText("No hay datos");
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void porcientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_porcientoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_porcientoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_calcular;
     private javax.swing.JButton btn_graficar;
     private javax.swing.JButton btn_ingresar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JPanel panel_enc;
     private javax.swing.JPanel panel_linea;
+    private javax.swing.JTextField porciento;
     private javax.swing.JTable tb_frecuencia;
     private javax.swing.JTextArea txt_area;
     private javax.swing.JTextField txt_ingresar;
+    private javax.swing.JTextField valorCalcular;
     // End of variables declaration//GEN-END:variables
 
-  
-   private void borrarFilas() {
+    private void borrarFilas() {
         DefaultTableModel modelo = (DefaultTableModel) tb_frecuencia.getModel();
         for (int i = 0; i < modelo.getRowCount(); i++) {
             modelo.removeRow(0);
         }
     }
-   
+
     private float redondear(float d, int i) {
         float valor = 0;
-        int factor=10*(i+1);
+        int factor = 10 * (i + 1);
         valor = d;
         valor = valor * factor;
         valor = java.lang.Math.round(valor);
@@ -357,16 +447,13 @@ public class JIFCuantitativo extends javax.swing.JInternalFrame {
 
         return valor;
     }
-   
-     
-       public void setCellRender(JTable table) {
-            Enumeration<TableColumn> en = table.getColumnModel().getColumns();
-                    while (en.hasMoreElements()) {
-                        TableColumn tc = en.nextElement();
-                        tc.setCellRenderer(new CellRenderer());
+
+    public void setCellRender(JTable table) {
+        Enumeration<TableColumn> en = table.getColumnModel().getColumns();
+        while (en.hasMoreElements()) {
+            TableColumn tc = en.nextElement();
+            tc.setCellRenderer(new CellRenderer());
         }
     }
-       
-
 
 }
